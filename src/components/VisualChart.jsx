@@ -2,8 +2,8 @@ import React from 'react';
 import { Chart } from 'react-google-charts';
 
 const options = {
-    title: 'Hinta',
-    legend: { position: 'bottom' },
+    title: 'Pörssisähkön hinta viikon ajalta (senttiä/kWh). Mukana 24% alv.',
+    legend: { position: 'right' },
     hAxis: {
         title: 'Tunti',
     },
@@ -18,52 +18,37 @@ const options = {
 }
 
 const VisualChart = ({data}) => {
+    console.log(data)
 
-    // example data: 
-    // {
-    //     "prices": [
-    //         {
-    //             "date": "2023-12-31T22:00:00.000Z",
-    //             "value": 49.612399999999994
-    //         },
-    //         {
-    //             "date": "2023-12-31T23:00:00.000Z",
-    //             "value": 47.578799999999994
-    //         }, ...
-    //     ]
-    // }
-
-    // Format dates to be more readable and convert prices.
+    // format dates to be more readable
     const formatDates = (data) => {
-        const formatted = data.map(price => {
+        const formattedData = data.map(price => {
             const date = new Date(price.date)
-            const day = date.getDate()
-            const month = date.getMonth() + 1
-            const year = date.getFullYear()
-            const hours = date.getHours()
+            const nextDate = new Date(price.date)
+            nextDate.setHours(nextDate.getHours() + 1)
             return {
-                date: `${day}.${month}.${year} ${hours}:00`,
-                value: price.value/10
+                date: `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:00-${nextDate.getHours()}:00`,
+                value: price.value
             }
         })
-        return formatted
+        return formattedData
     }
 
     data = formatDates(data)
-    console.log(data)
-    
+    //console.log(data)
+
+    //TODO: Visualize data with Google Charts, add some styling and highlight current hour, max and min values.
     return (
         <Chart
-        width={'100vh'}
-        height={'800px'}
-        chartType="ColumnChart"
-        loader={<div>Ladataan kuvaajaa</div>}
-        data={[
-            ['Tunti', 'Hinta: senttiä/kWh'],
-            ...data.map(price => [price.date, price.value])
-        ]}
-        options={options}
-        rootProps={{ 'data-testid': '1' }}
+            chartType="ColumnChart"
+            width="1200px"
+            height="700px"
+            data={[
+                ['Tunti', 'Hinta'],
+                ...data.map(price => [price.date, parseFloat(price.value)]),
+            ]}
+            options={options}
+            rootProps={{ 'data-testid': '1' }}
         />
     );
 }

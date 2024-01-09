@@ -30,7 +30,7 @@ function App() {
     axios
       .get(bUrl)
       .then(response => {
-        setData(response.data)
+        setData(response.data.prices)
       })
       .catch(error => {
         console.log(error)
@@ -68,7 +68,7 @@ function App() {
         </div>
         <div className="chart">
           <h2>Hintakuvaaja viimeiseltä 7 päivältä</h2>
-          {/* <VisualChart data={data} /> */}
+          <VisualChart data={data} />
         </div>
         <p className="note">
           Data from ENTSO-E transparency platform restful API

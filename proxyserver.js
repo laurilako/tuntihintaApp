@@ -42,11 +42,11 @@ function formUrl() {
     // TODO: Find logic that addresses the time interval and new prices which are published around 14:00 for the next day. Also time zone might be an issue.
 
     const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 8);
+    startDate.setDate(startDate.getDate() - 7);
     startDate.setHours(0, 0, 0, 0);
 
     const endDate = new Date();
-    endDate.setDate(endDate.getDate() - 1);
+    endDate.setDate(endDate.getDate());
     endDate.setHours(22, 0, 0, 0);
     
     const timeInterval = `${startDate.toISOString()}/${endDate.toISOString()}`;
