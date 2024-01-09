@@ -7,45 +7,54 @@ import VisualChart from './components/VisualChart'
 function App() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [currDate, setCurrDate] = useState(null)
-  const bUrl = ''
+  const [currDate, setCurrDate] = useState(new Date())
+  const [dateWeekAgo, setDateWeekAgo] = useState()
+  
+  const bUrl = 'http://localhost:4000/getPrices'
   
   // set hard coded data to state for testing purposes from util/prices.json
-
-  // get current time
-  useEffect(() => {
-    setLoading(true)
-    const date = new Date()
-    setCurrDate(date)
-    setTimeout(() => {
-      setLoading(false)
-    }, 200)
-  }, [])
-
-
   useEffect(() => {
     setData(prices)
     setLoading(false)
   }, [])
 
-  // fetch data from API, with date range set from current date to 7 days back
+  useEffect(() => {
+    CalculateWeekAgo()
+  }, [])
+
+  
+  // fetch data from backend
   // response data is saved to state
+  // parameters for API call:
+  // - start: current date
+  // - end: 7 days back from current date
+  useEffect(() => {
+    setLoading(true)
+    axios.get(bUrl, {
+      params: {
+        start: dateWeekAgo,
+        end: currDate
+      }
+    })
+      .then(response => {
+        setData(response.data)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, [currDate, dateWeekAgo])
 
-  // useEffect(() => {
-  //   setLoading(true)
-  //   axios.get(bUrl)
-  //     .then(response => {
-  //       setData(response.data)
-  //       setLoading(false)
-  //     })
-  //     .catch(error => {
-  //       console.log(error)
-  //     })
-  // }, [])
+  // calculate date 7 days back from current date
+  const CalculateWeekAgo = () => {
+    const weekAgo = new Date()
+    weekAgo.setDate(weekAgo.getDate() - 7)
+    weekAgo.setHours(0, 0, 0, 0)
+    setDateWeekAgo(weekAgo)
+  }
 
-  console.log(loading)
-  console.log(currDate)
-  console.log(data)
+  console.log("Tänää:", currDate)
+  console.log("7 päivää sitten:", dateWeekAgo)
 
   return (
     <>{
@@ -55,7 +64,7 @@ function App() {
         </div>
         :
       <div>
-        <h1>Tuntihinta</h1>
+        <h1>TUNTIHINTA</h1>
         <div className="timeInfo">
           <h2>👋</h2>
           <p>
@@ -64,10 +73,10 @@ function App() {
         </div>
         <div className="chart">
           <h2>Hintakuvaaja viimeiseltä 7 päivältä</h2>
-          <VisualChart data={data} />
+          {/* <VisualChart data={data} /> */}
         </div>
         <p className="note">
-          Data from https://sahkotin.fi/
+          Data from ENTSO-E transparency platform restful API
         </p>
       </div>
     }
