@@ -26,12 +26,10 @@ export const findMin = (data) => {
 // format dates to be more readable
 export const formatDates = (data) => {
     const formattedData = data.map(price => {
-        const date = new Date(price.date)
-        const nextDate = new Date(price.date)
-        nextDate.setHours(nextDate.getHours() + 1)
-        return {
-            date: `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:00-${nextDate.getHours()}:00`,
-            value: parseFloat(price.value).toFixed(2)
+    const date = new Date(price.date)
+      return {
+            date: date,
+            value: price.value
         }
     })
     return formattedData
