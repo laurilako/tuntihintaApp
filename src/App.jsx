@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { prices } from './util/prices.json'
-import VisualChart from './components/VisualChart'
+import VisualWeekChart from './components/VisualWeekChart'
 import axios from 'axios'
 
 function App() {
@@ -46,10 +46,10 @@ function App() {
     setDateWeekAgo(weekAgo)
   }
 
-  // debugginnn
-  console.log("Tänää:", currDate)
-  console.log("7 päivää sitten:", dateWeekAgo)
-  console.log("Data:", data)
+  // // debugginnn
+  // console.log("Tänää:", currDate)
+  // console.log("7 päivää sitten:", dateWeekAgo)
+  // console.log("Data:", data)
 
   return (
     <>{
@@ -59,16 +59,20 @@ function App() {
         </div>
         :
       <div>
-        <h1>TUNTIHINTA</h1>
+        <h1 className='header'>TUNTIHINTA</h1>
         <div className="timeInfo">
-          <h2>👋</h2>
+          <h2></h2>
           <p>
-           {currDate.getDate()}.{currDate.getMonth() + 1}.{currDate.getFullYear()}
+          {currDate.getDate()}.{currDate.getMonth() + 1}.{currDate.getFullYear()}
           </p>
         </div>
-        <div className="chart">
+        {/* <div className="todaychart">
           <h2>Hintakuvaaja viimeiseltä 7 päivältä</h2>
-          <VisualChart data={data} />
+          <VisualWeekChart data={data} />
+        </div> */}
+        <div className="weekchart">
+          <h2>Hintakuvaaja viimeiseltä 7 päivältä</h2>
+          <VisualWeekChart data={data} />
         </div>
         <p className="note">
           Data from ENTSO-E transparency platform restful API

@@ -1,9 +1,14 @@
 import { parseString } from "xml2js";
+import dotenv from 'dotenv';
+dotenv.config();
+
+const bUrl = "https://web-api.tp.entsoe.eu/api?"
+const API_KEY = process.env.VITE_KEY
 
 // Function to parse XML data to JSON format. ENTSO-E API returns XML data which must be parsed to JSON format and cleaned up before it can be used.
 // It also adds the VAT 24% to the prices and divides the price by 10 to get the price as c / kWh.
 // The function returns an object with a list of prices and their timestamps.
-function documentParser(data) {
+export function documentParser(data) {
     const vat = 1.24;
     let parsed = [];
 
@@ -36,5 +41,22 @@ function documentParser(data) {
     return parsed;
 };
 
+// Function to form the url to create API request. Handles the time interval and the API key.
+export function formUrl() {
+    // TODO: Find logic that addresses the time interval and new prices which are published around 14:00 for the next day. Also time zone might be an issue.
 
-export default documentParser;
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 7);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate());
+    endDate.setHours(22, 0, 0, 0);
+    
+    const timeInterval = `${startDate.toISOString()}/${endDate.toISOString()}`;
+
+    const url_to_call = bUrl + 'securityToken=' + API_KEY + '&documentType=A44' + "&in_Domain=10YFI-1--------U"
+    + "&out_Domain=10YFI-1--------U" + "&timeInterval=" + timeInterval;
+
+    return url_to_call
+}
