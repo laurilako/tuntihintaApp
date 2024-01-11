@@ -26,13 +26,15 @@ export function documentParser(data) {
             const points = timeSeries.Period[0].Point;
 
         // Convert XML data to JSON format
+        // Convert dates to local time
         const timeSeriesPrices = points.map(point => {
             const position = parseInt(point.position[0]);
-            const priceAmount = parseFloat((point['price.amount'][0] * vat) / 10).toFixed(4);
+            const priceAmount = parseFloat((point['price.amount'][0] * vat) / 10);
             const timestamp = new Date(startUtc);
+            
             timestamp.setHours(timestamp.getHours() + (position - 1));
 
-            return { date: timestamp, value: priceAmount };
+            return { date: timestamp.toISOString(), value: priceAmount };
             })
             prices.push(...timeSeriesPrices);
         });
@@ -46,13 +48,21 @@ export function formUrl() {
     // TODO: Find logic that addresses the time interval and new prices which are published around 14:00 for the next day. Also time zone might be an issue.
 
     const startDate = new Date();
+
     startDate.setDate(startDate.getDate() - 7);
-    startDate.setHours(0, 0, 0, 0);
+    startDate.setHours(22, 0, 0, 0);
 
     const endDate = new Date();
-    endDate.setDate(endDate.getDate());
+
+    // if time is after 14:00, add one day to the end date becuse the prices for the next day are probably published
+    if(endDate.getHours() > 14) {
+        endDate.setDate(endDate.getDate() + 1);
+    } else {
+        endDate.setDate(endDate.getDate());
+    }
+
     endDate.setHours(22, 0, 0, 0);
-    
+
     const timeInterval = `${startDate.toISOString()}/${endDate.toISOString()}`;
 
     const url_to_call = bUrl + 'securityToken=' + API_KEY + '&documentType=A44' + "&in_Domain=10YFI-1--------U"

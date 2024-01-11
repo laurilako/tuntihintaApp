@@ -22,11 +22,12 @@ app.get('/getWeekPrices', (req,res) => {
     .then(response => {
         const data = response.data;
         const jsonData = documentParser(data);
-        //console.log("JSONDATA", jsonData)
         res.send(jsonData);
     })
+    // if api call fails, send error message to front-end
     .catch(error => {
         console.log(error);
+        res.status(500).send({error: "Error while fetching prices from ENTSO-E API"})
     })
 }
 )

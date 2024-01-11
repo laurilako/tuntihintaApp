@@ -22,15 +22,3 @@ export const findMin = (data) => {
     })
     return minIndex
 }
-
-// format dates to be more readable
-export const formatDates = (data) => {
-    const formattedData = data.map(price => {
-    const date = new Date(price.date)
-      return {
-            date: date,
-            value: price.value
-        }
-    })
-    return formattedData
-}
