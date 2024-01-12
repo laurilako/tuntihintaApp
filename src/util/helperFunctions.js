@@ -10,6 +10,7 @@ export const findMax = (data) => {
     })
     return maxIndex
 }
+
 // finds min value and returns its index from data array
 export const findMin = (data) => {
     let min = 1000
@@ -21,4 +22,17 @@ export const findMin = (data) => {
         }
     })
     return minIndex
+}
+
+// tries to find current price and returns it
+export const findCurrentPrice = (data, currentTime) => {
+    currentTime.setMinutes(0,0,0,0)
+    currentTime.setSeconds(0,0)
+    try {
+        const currTime = currentTime.toISOString()
+        const currTimePrice = data.find(price => price.date === currTime)
+        return currTimePrice.value
+    } catch (error) {
+        return null
+    }
 }

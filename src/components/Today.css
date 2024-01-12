@@ -1,0 +1,10 @@
+.currentPrice {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    color: #291bf0;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}

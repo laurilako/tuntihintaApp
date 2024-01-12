@@ -1,26 +1,29 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 // import { prices } from './util/prices.json'
-import VisualWeekChart from './components/VisualWeekChart'
+import  VisualWeekChart from './components/VisualWeekChart'
+import Today from './components/Today'
 import axios from 'axios'
 
 function App() {
   const [data, setData] = useState(null)
-  const [currDate, setCurrDate] = useState(new Date())
   const [error, setError] = useState(null)
-
+  
   // fetch data from backend proxy server
   // response data is saved to state
   useEffect(() => {
     axios
-      .get('/api')
+      .get('/api/getWeekPrices')
       .then(response => {
         setData(response.data.prices)
       })
       .catch(error => {
-        setError(error.response.data)
-      }
-    )
+        if(error.response.data){
+          setError(error.response.data)
+        } else {
+          console.log(error)
+        }
+      })
   }, [])
   
   // if error occurs, show error message
@@ -33,7 +36,7 @@ function App() {
       </div>
     )
   }
-
+  
   return (
     <div className="container">
     {
@@ -44,13 +47,7 @@ function App() {
         </div>
       :
       <div>
-        <div className="timeInfo">
-          <h2></h2>
-          <p>
-          {currDate.getDate()}.{currDate.getMonth() + 1}.{currDate.getFullYear() + ' ' + currDate.getHours() + ':' + 
-          (currDate.getMinutes() < 10 ? '0' + currDate.getMinutes() : currDate.getMinutes())}
-          </p>
-        </div>
+        <Today data={data}/>
         <div className="weekchart">
           <h3>Hintakuvaaja viimeiseltä 7 vuorokaudelta ja tulevalta vuorokaudelta, jos hinnat on julkaistu</h3>
           <h3>Valitse tarkempi ajankohta hiirellä maalaamalla alue ja nollaa valinta napsauttamalla kakkospainiketta </h3>
@@ -59,7 +56,7 @@ function App() {
       </div>
     }
       <p className="note">
-        Data from <a href='https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html'>ENTSO-E transparency platform restful API</a>
+        Datan lähde: <a href='https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html'>ENTSO-E transparency platform restful API</a>
       </p>
     </div>
   )

@@ -7,8 +7,7 @@ const VisualWeekChart = ({data}) => {
     const [maxValue, setMaxValue] = useState()
     const [minIndex, setMinIndex] = useState(null)
     const [dataForChart, setDataForChart] = useState([])
-    const [timeNow, setTimeNow] = useState(new Date())
-
+    
     useEffect(() => {
         var maxIndex = findMax(data)
         var minIndex = findMin(data)

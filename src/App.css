@@ -12,6 +12,9 @@
   justify-content: center;
 }
 
+.weekchart {
+  margin-top: 50px;
+}
 
 .loader {
   width: 48px;
