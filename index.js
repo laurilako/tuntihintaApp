@@ -4,6 +4,7 @@ import axios from 'axios';
 import {formUrl, documentParser} from './util/helper.js';
 
 const app = express();
+
 app.use(cors());
 
 // handle GET request from front-end to get 7 day prices from ENTSO-E
