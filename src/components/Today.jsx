@@ -4,20 +4,17 @@ import './Today.css'
 
 function Today({data}) {
 
-    const [currPriceColor, setCurrPriceColor] = useState('orange')
-    const [meanPrice, setMeanPrice] = useState(null)
+    const [currPriceColor, setCurrPriceColor] = useState(null)
+    const [meanPrice, setMeanPrice] = useState(calculateAverage(data))
 
     useEffect(() => {
-        if(!data) return
-        setMeanPrice(calculateAverage(data))
-        if(currentPriceData === meanPrice) setCurrPriceColor('orange');
         if(currentPriceData < meanPrice) {
             setCurrPriceColor('green')
         }
         if(currentPriceData > meanPrice) {
             setCurrPriceColor('red')
         }
-    }, [data])
+    }, [data, meanPrice])
 
     const currDate = new Date()
     const currentPriceIndex = findCurrentPrice(data, currDate)
@@ -29,7 +26,7 @@ function Today({data}) {
             {currDate.getDate()}.{currDate.getMonth() + 1}.{currDate.getFullYear()} klo {currDate.getHours()}
         </p>
         <h3>Hinta nyt: </h3>
-            <div className="currentPrice" style={{color: currPriceColor}}>{currentPriceData ? currentPriceData.toFixed(2) + ' c/kWh' : 'Ei saatavilla'}</div>
+            <div className="currentPrice" style={{color: currPriceColor ? currPriceColor : 'orange'}}>{currentPriceData ? currentPriceData.toFixed(2) + ' c/kWh' : 'Ei saatavilla'}</div>
         <h3>Ajanjakson keskiarvo: </h3>
             <div className="meanPrice">{meanPrice ? meanPrice.toFixed(2) + ' c/kWh' : 'Ei saatavilla'}</div>
     </div>
