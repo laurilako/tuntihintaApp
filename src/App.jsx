@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-// import { prices } from './util/prices.json'
+// import { prices } from './util/prices.json' // for testing
 import  VisualWeekChart from './components/VisualWeekChart'
 import Today from './components/Today'
 import axios from 'axios'

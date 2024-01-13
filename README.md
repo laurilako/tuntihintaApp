@@ -6,13 +6,14 @@ Ohjelma oli rekrytointiprosessissa annettu haaste.
 
 - Suunnittele ja toteuta sovellus, joka hakee sähkön pörssihinnan tunneittain viimeisen 7 päivän ajalta.
 - Visualisoi sähkön hinta haluamallasi tavalla. Osoita lisäksi ajanjakson edullisin ja kallein hinta.
+
 ## Ohjelma
 Ohjelmassa on kolme kokonaisuutta. Vite työkaluympäristössä Reactilla toteutettu front-end client, joka keskustelee serverin kanssa, joka hakee datan ENTSO-E:n transparenssialustan restful API:sta.
 
 > ENTSO-E:n ylläpitämä transparenssialusta on keskeinen sähkömarkkinatiedon julkaisupaikka, jonne kerätään tietoa muun muassa sähkön tuotannosta, kulutuksesta, siirroista ja hinnoista koko Euroopan tasolla. Transparenssialusta perustuu EU:n sähkömarkkinoiden läpinäkyvyysasetukseen N:o 543/2013. Transparenssialustan tiedot ovat vapaasti käytössä, ja alustaa kehitetään jatkuvasti.
 
-![API flow](./api-flow-export-1-13-2024-1_17_10-PM.png)
+![API flow](./api-flow.png)
 
-Tuotantoversio on Express.js serveri, joka tarjoaa build version React front-endistä ja keskustelee ENTSO-E API:n kanssa ja rakentaa saadusta XML vastauksesta parsitun JSON tiedoston selaimelle.
+Tuotantoversio on Express.js serveri, joka tarjoaa build version Reactilla toteutetusta front-endistä ja keskustelee ENTSO-E API:n kanssa. Se rakentaa saadusta XML tiedostosta parsitun JSON tiedoston selaimelle kun selain sitä pyytää.
 
 ![Build](./build-export-1-13-2024-1_17_10-PM.png)
