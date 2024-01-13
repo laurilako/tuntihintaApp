@@ -1,8 +1,5 @@
 import { defineConfig } from 'vite'
-import dotenv from 'dotenv'
 import react from '@vitejs/plugin-react'
-
-dotenv.config()
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,10 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: `http://localhost:${process.env.PORT} || 3000`,
+        target: `http://localhost:${process.env.PORT || 8080}`,
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       }
     }
   }

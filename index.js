@@ -9,7 +9,10 @@ app.use(cors());
 
 // handle GET request from front-end to get 7 day prices from ENTSO-E
 app.get('/api/getWeekPrices', (req,res) => {
-    const url_to_call = formUrl();
+    if(!req.query.date) {
+        res.status(400).send({error: "Date is missing"})
+    }
+    const url_to_call = formUrl(req.query.date);
     axios.get(url_to_call)
     .then(response => {
         const data = response.data;

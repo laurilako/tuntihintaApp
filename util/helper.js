@@ -39,11 +39,11 @@ export function documentParser(data) {
 };
 
 // Function to form the url to create API request. Handles the time interval and the API key.
-export function formUrl() {
-    const startDate = new Date();
+export function formUrl(date) {
+    const startDate = new Date(date);
     startDate.setDate(startDate.getDate() - 7);
     startDate.setHours(22, 0, 0, 0);
-    const endDate = new Date();
+    const endDate = new Date(date);
     // if time is after 14:00, add one day to the end date becuse the prices for the next day are probably published
     if(endDate.getHours() > 14) {
         endDate.setDate(endDate.getDate() + 1);

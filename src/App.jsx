@@ -8,24 +8,24 @@ import axios from 'axios'
 function App() {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
-  
-  // fetch data from backend proxy server
+
+  // fetch data from backend proxy server with today as parameter
   // response data is saved to state
   useEffect(() => {
     axios
-      .get('/api/getWeekPrices')
-      .then(response => {
+      .get('/api/getWeekPrices', { params: { date: new Date() }})
+      .then((response) => {
         setData(response.data.prices)
       })
-      .catch(error => {
-        if(error.response.data){
+      .catch((error) => {
+        if(error.response.data) {
           setError(error.response.data)
         } else {
           console.log(error)
         }
       })
   }, [])
-  
+
   // if error occurs, show error message
   if(error) {
     return (
