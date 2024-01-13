@@ -39,7 +39,7 @@ export const findCurrentPrice = (data, currentTime) => {
 }
 
 export const calculateAverage = (data) => {
-    let sum = 0
+    let sum = 0.0
     data.forEach(price => {
         sum += Number(price.value)
     })

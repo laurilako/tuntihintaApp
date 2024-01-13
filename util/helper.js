@@ -34,6 +34,13 @@ export function documentParser(data) {
             prices.push(...timeSeriesPrices);
         });
         parsed = { prices };
+        // remove first 23 hours from the list because they are from the previous day and not needed
+        parsed.prices = parsed.prices.slice(23);
+
+        // if tomorrows prices are fetched, remove earliest day from the list
+        if(parsed.prices.length > 168) {
+            parsed.prices = parsed.prices.slice(24);
+        }
     });
     return parsed;
 };
@@ -41,7 +48,7 @@ export function documentParser(data) {
 // Function to form the url to create API request. Handles the time interval and the API key.
 export function formUrl(date) {
     const startDate = new Date(date);
-    startDate.setDate(startDate.getDate() - 7);
+    startDate.setDate(startDate.getDate() - 8);
     startDate.setHours(22, 0, 0, 0);
     const endDate = new Date(date);
     // if time is after 14:00, add one day to the end date becuse the prices for the next day are probably published

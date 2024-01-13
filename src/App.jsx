@@ -49,8 +49,8 @@ function App() {
       <div>
         <Today data={data}/>
         <div className="weekchart">
-          <h3>Hintakuvaaja viimeiseltä 7 vuorokaudelta ja tulevalta vuorokaudelta, jos hinnat on julkaistu</h3>
-          <h3>Valitse tarkempi ajankohta hiirellä maalaamalla alue ja nollaa valinta napsauttamalla kakkospainiketta </h3>
+          <h3>Pörssisähkön hintakuvaaja viimeiseltä 7 vuorokaudelta<br></br>Mukana tuleva vuorokausi, jos hinnat on julkaistu</h3>
+          <h3>Valitse tarkempi ajankohta hiirellä maalaamalla alue ja nollaa valinta napsauttamalla kakkospainiketta</h3>
           <VisualWeekChart data={data} />
         </div>
       </div>

@@ -21,24 +21,25 @@ const VisualWeekChart = ({data}) => {
         //title: 'Pörssisähkön hinta kuluneelta 7 päivältä tunneittain, senttiä/kWh + 24% alv.',
         backgroundColor: '#CFE7FD',
         chartArea: { height: "80%", width: "80%" },
+        tooltip: { isHtml: true, trigger: 'both', textStyle: {fontSize: 14} },
         hAxis: {
             title: 'Päivä',
             slantedText: true,
             gridlines: {
                 units: {
                   days: {format: ['dd.MM', '']},
-                  hours: {format: ['HH:mm', '']}
+                  hours: {format: ['HH:mm', '']},
                 }
             },
             minorGridlines: {
                 units: {
-                  hours: {format: ['HH:mm', '']}
+                    hours: {format: ['HH:mm', 'HH:mm']}
                 }
-            }
+            },
         },
         vAxis: {
             title: 'Hinta: c/kWh',
-            viewWindow: { max: parseFloat(maxValue) + 5}
+            viewWindow: { max: parseFloat(maxValue) + 5},
         },
         explorer: {
             axis: 'horizontal',
@@ -48,7 +49,7 @@ const VisualWeekChart = ({data}) => {
         },
         pointSize: 4,
         dataOpacity: 0.7,
-        colors: ['blue'],
+        colors: ['black'],
     }
 
     const dataForWeekChart = [
@@ -97,19 +98,20 @@ const VisualWeekChart = ({data}) => {
             }
         }),
     ]
-
-
+    
     return (
-        <div className='chart'>
-            <Chart
-                chartType="LineChart"
-                chartLanguage='fi'
-                width="1200px"
-                height="700px"
-                data={dataForWeekChart}
-                options={options}
-            />
-        </div>
+        <>
+            <div className='chart'>
+                <Chart
+                    chartType="LineChart"
+                    chartLanguage='fi'
+                    width="1200px"
+                    height="700px"
+                    data={dataForWeekChart}
+                    options={options}
+                />
+            </div>
+        </>
     );
 }
 
