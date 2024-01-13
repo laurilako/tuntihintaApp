@@ -30,4 +30,4 @@ app.get('/api/getWeekPrices', (req,res) => {
 app.use(express.static(process.cwd() + '/dist'));
 
 // listening for port process.env.PORT
-app.listen(process.env.PORT, ()=> console.log(`Server is running on ${port}` ))
+app.listen(process.env.PORT, ()=> console.log(`Server is running on ${process.env.PORT}` ))
