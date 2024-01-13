@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Chart } from 'react-google-charts';
-import { findMax, findMin } from '../util/helperFunctions';
+import { findMax, findMin, findCurrentPrice } from '../util/helperFunctions';
 
 const VisualWeekChart = ({data}) => {
     const [maxIndex, setMaxIndex] = useState(null)
@@ -37,8 +37,8 @@ const VisualWeekChart = ({data}) => {
             }
         },
         vAxis: {
-            title: 'Hinta: senttiä/kWh',
-            viewWindow: { max: parseFloat(maxValue)}
+            title: 'Hinta: c/kWh',
+            viewWindow: { max: parseFloat(maxValue) + 5}
         },
         explorer: {
             axis: 'horizontal',
@@ -46,31 +46,59 @@ const VisualWeekChart = ({data}) => {
             keepInBounds: true,
             zoomDelta: 1.1,
         },
-        pointSize: 3,
+        pointSize: 4,
         dataOpacity: 0.7,
+        colors: ['blue'],
     }
 
     const dataForWeekChart = [
-        ['Aika', 'Hinta', { role: 'style' }, 
+        ['Aika', 'Hinta', 
+        {role: 'style' },
         {role: 'annotation', type: 'string'}, 
         {role: 'annotationText', type: 'string'},
+        {role: 'style' },
         ],
         ...dataForChart.map((price, index) => {
+            // if current price, show star on chart
+            if(index === findCurrentPrice(dataForChart, new Date())) {
+                if(index === maxIndex) {
+                    return [new Date(price.date), parseFloat(price.value),
+                        'point { size: 8; shape-type: star; fill-color: red; visible: true; }',
+                        'Nyt, kallein tunti', 'Nyt: ' + parseFloat(price.value).toFixed(3) + ' c/kWh',
+                        null]
+                }
+                if(index === minIndex) {
+                    return [new Date(price.date), parseFloat(price.value),
+                        'point { size: 8; shape-type: star; fill-color: green; visible: true; }',
+                        'Nyt, halvin tunti', 'Nyt: ' + parseFloat(price.value).toFixed(3) + ' c/kWh',
+                        null]
+                }
+                else {
+                    return [new Date(price.date), parseFloat(price.value),
+                        'point { size: 8; shape-type: star; fill-color: orange; visible: true; }',
+                        'Nyt', 'Hinta nyt: ' + parseFloat(price.value).toFixed(3) + ' senttiä/kWh',
+                        null]
+                }
+            }
             if(index === maxIndex) {
-                return [new Date(price.date), parseFloat(price.value), 
-                    'point { size: 4; shape-type: dot; fill-color: red; visible: true;}',
-                    'Kallein tunti', 'Ajanjakson kalleimman tunnin hinta: ' + parseFloat(price.value).toFixed(3) + ' senttiä/kWh']
+                return [new Date(price.date), parseFloat(price.value),
+                    'point { size: 8; shape-type: dot; fill-color: red; visible: true;}',
+                    'Kallein tunti', 'Ajanjakson kalleimman tunnin hinta: ' + parseFloat(price.value).toFixed(3) + ' c/kWh',
+                    null]
             }
             if(index === minIndex) {
-                return [new Date(price.date), parseFloat(price.value), 
-                    'point { size: 4; shape-type: dot; fill-color: green; visible: true; }',
-                    'Halvin tunti', 'Ajanjakson halvimman tunnin hinta: ' + price.value.toFixed(3) + ' senttiä/kWh']
+                return [new Date(price.date), parseFloat(price.value),
+                    'point { size: 8; shape-type: dot; fill-color: green; visible: true; }',
+                    'Halvin tunti', 'Ajanjakson halvimman tunnin hinta: ' + price.value.toFixed(3) + ' c/kWh',
+                    null]
             }
             else {
-                return [new Date(price.date), parseFloat(price.value), null, null, null]
+                return [new Date(price.date), parseFloat(price.value), null, null, null,null]
             }
-        })
+        }),
     ]
+
+
     return (
         <div className='chart'>
             <Chart

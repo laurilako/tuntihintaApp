@@ -24,15 +24,24 @@ export const findMin = (data) => {
     return minIndex
 }
 
-// tries to find current price and returns it
+// tries to find current index from data array and returns it
 export const findCurrentPrice = (data, currentTime) => {
     currentTime.setMinutes(0,0,0,0)
     currentTime.setSeconds(0,0)
     try {
         const currTime = currentTime.toISOString()
-        const currTimePrice = data.find(price => price.date === currTime)
-        return currTimePrice.value
+        // find index of current time from data array
+        const currTimeIndex = data.findIndex(price => price.date === currTime)
+        return currTimeIndex
     } catch (error) {
         return null
     }
+}
+
+export const calculateAverage = (data) => {
+    let sum = 0
+    data.forEach(price => {
+        sum += Number(price.value)
+    })
+    return sum / data.length
 }
