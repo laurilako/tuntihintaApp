@@ -24,5 +24,7 @@ app.get('/api/getWeekPrices', (req,res) => {
 // use express to serve builded front-end
 app.use(express.static(process.cwd() + '/dist'));
 
+const port = process.env.PORT || 3000;
+
 // listening for port process.env.PORT
-app.listen(process.env.PORT, ()=> console.log(`Server is running on ${process.env.PORT}` ))
+app.listen(port, ()=> console.log(`Server is running on ${port}` ))
