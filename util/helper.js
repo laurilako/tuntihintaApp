@@ -35,12 +35,7 @@ export function documentParser(data) {
         });
         parsed = { prices };
         // remove first 23 hours from the list because they are from the previous day and not needed
-        parsed.prices = parsed.prices.slice(23);
-
-        // if tomorrows prices are fetched, remove earliest day from the list
-        if(parsed.prices.length > 168) {
-            parsed.prices = parsed.prices.slice(24);
-        }
+        parsed.prices.splice(0, 23);
     });
     return parsed;
 };

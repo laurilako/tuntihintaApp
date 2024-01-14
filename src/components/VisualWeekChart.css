@@ -1,0 +1,20 @@
+.chartButton {
+  background-color: #CFE7FD;
+  border: 1px solid #221f1f;
+  border-radius: 4px;
+  color: #000000;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 660;
+  margin-bottom: 10px;
+  padding: 0 5px;
+  text-align: center;
+}
+
+.chartButton:hover {
+  background-color: #b3d4fc;
+}
+
+.chart {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}

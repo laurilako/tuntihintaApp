@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 // import { prices } from './util/prices.json' // for testing
+import { removeExtraDays } from './util/helperFunctions'
 import  VisualWeekChart from './components/VisualWeekChart'
 import Today from './components/Today'
 import axios from 'axios'
@@ -15,7 +16,11 @@ function App() {
     axios
       .get('/api/getWeekPrices', { params: { date: new Date() }})
       .then((response) => {
-        setData(response.data.prices)
+        if(response.data.prices.length < 168) {
+          setError({error: 'Dataa ei saatavilla'})
+          return
+        }
+        setData(removeExtraDays(response.data.prices))
       })
       .catch((error) => {
         if(error.response.data) {
@@ -36,7 +41,8 @@ function App() {
       </div>
     )
   }
-  
+
+
   return (
     <div className="container">
     {
@@ -48,9 +54,9 @@ function App() {
       :
       <div>
         <Today data={data}/>
-        <div className="weekchart">
+        <div className="chart-header">
           <h3>Pörssisähkön hintakuvaaja viimeiseltä 7 vuorokaudelta<br></br>Mukana tuleva vuorokausi, jos hinnat on julkaistu</h3>
-          <h3>Valitse tarkempi ajankohta hiirellä maalaamalla alue ja nollaa valinta napsauttamalla kakkospainiketta</h3>
+          <h3>Valitse tarkempi ajankohta hiirellä valitsemalla alue ja nollaa valinta napsauttamalla kakkospainiketta</h3>
           <VisualWeekChart data={data} />
         </div>
       </div>

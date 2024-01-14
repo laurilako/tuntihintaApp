@@ -45,3 +45,11 @@ export const calculateAverage = (data) => {
     })
     return sum / data.length
 }
+
+export const removeExtraDays = (data) => {
+    // check how many days there are in data
+    const days = data.length / 24
+    // remove extra days
+    data.splice(0, (days - 7) * 24)
+    return data
+}
