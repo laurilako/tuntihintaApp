@@ -46,12 +46,6 @@ export function formUrl(date) {
     startDate.setDate(startDate.getDate() - 8);
     startDate.setHours(22, 0, 0, 0);
     const endDate = new Date(date);
-    // if time is after 14:00, add one day to the end date becuse the prices for the next day are probably published
-    if(endDate.getHours() > 14) {
-        endDate.setDate(endDate.getDate() + 1);
-    } else {
-        endDate.setDate(endDate.getDate());
-    }
     endDate.setHours(22, 0, 0, 0);
     const timeInterval = `${startDate.toISOString()}/${endDate.toISOString()}`;
     const url_to_call = bUrl + 'securityToken=' + API_KEY + '&documentType=A44' + "&in_Domain=10YFI-1--------U"

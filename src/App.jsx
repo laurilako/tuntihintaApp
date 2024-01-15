@@ -13,8 +13,12 @@ function App() {
   // fetch data from backend proxy server with today as parameter
   // response data is saved to state
   useEffect(() => {
+    const today = new Date()
+    if(today.getHours() >= 14) {
+      today.setDate(today.getDate() + 1)
+    }
     axios
-      .get('/api/getWeekPrices', { params: { date: new Date() }})
+      .get('/api/getWeekPrices', { params: { date: today }})
       .then((response) => {
         if(response.data.prices.length < 168) {
           setError({error: 'Dataa ei saatavilla'})
@@ -41,7 +45,6 @@ function App() {
       </div>
     )
   }
-
 
   return (
     <div className="container">
